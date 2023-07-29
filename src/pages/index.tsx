@@ -7,13 +7,14 @@ import { stripe } from '@/lib/stripe'
 import { HomeContainer, Product } from "@/styles/pages/home"
 
 import 'keen-slider/keen-slider.min.css'
+import Link from 'next/link'
 
 interface HomeProps {
   products: {
     id: string
     name: string
     imageUrl: string
-    price: number
+    price: string
   }[]
 }
 
@@ -30,14 +31,15 @@ export default function Home({ products }: HomeProps) {
     <HomeContainer ref={sliderRef} className='keen-slider'>
       {products.map(el => {
         return (
-          <Product className='keen-slider__slide' key={el.id}>
-            <Image src={el.imageUrl} alt='' width={520} height={480}></Image>
-
-            <footer>
-              <strong>{el.name}</strong>
-              <span>{el.price}</span>
-            </footer>
-          </Product>
+          <Link key={el.id} href={`/product/${el.id}`} prefetch={false}>
+            <Product className='keen-slider__slide'>
+              <Image src={el.imageUrl} alt='' width={520} height={480} />
+              <footer>
+                <strong>{el.name}</strong>
+                <span>{el.price}</span>
+              </footer>
+            </Product>
+          </Link>
         )
       })}
     </HomeContainer>
